@@ -53,13 +53,6 @@ class BaseModel:
         return '[{}] ({}) {}'.format(
             self.__class__.__name__, self.id, self.__dict__)
 
-    def save(self):
-        """Updates updated_at with current time when instance is changed"""
-        from models import storage
-        self.updated_at = datetime.now()
-        storage.new(self)
-        storage.save()
-
     def to_dict(self):
         """Convert instance into dict format"""
         dct = self.__dict__.copy()
@@ -67,8 +60,8 @@ class BaseModel:
         for k in dct:
             if type(dct[k]) is datetime:
                 dct[k] = dct[k].isoformat()
-        if '_sa_instance_state' in dct.keys():
-            del(dct['_sa_instance_state'])
+        if '_sa_instance_state' in dct:
+            del dct['_sa_instance_state']
         return dct
 
     def delete(self):
