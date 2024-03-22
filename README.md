@@ -1,5 +1,5 @@
 # HBNB - The Console
-![logo Image](images/hbnb_logo.jpg "An example image stored in the repository")
+![logo Image](image/hbnb_logo.jpg "An example image stored in the repository")
 
 
 ## Description
