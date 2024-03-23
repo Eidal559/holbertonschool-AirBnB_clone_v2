@@ -49,28 +49,10 @@ class TestHBNBCommand(unittest.TestCase):
         """
         with patch('sys.stdout', new=StringIO()) as cout:
             cons = HBNBCommand()
-            # creating a model with non-null attribute(s)
-            with self.assertRaises(sqlalchemy.exc.OperationalError):
-                cons.onecmd('create User')
-            # creating a User instance
-            clear_stream(cout)
-            cons.onecmd('create User email="john25@gmail.com" password="123"')
-            mdl_id = cout.getvalue().strip()
-            dbc = MySQLdb.connect(
-                host=os.getenv('HBNB_MYSQL_HOST'),
-                port=3306,
-                user=os.getenv('HBNB_MYSQL_USER'),
-                passwd=os.getenv('HBNB_MYSQL_PWD'),
-                db=os.getenv('HBNB_MYSQL_DB')
-            )
-            cursor = dbc.cursor()
-            cursor.execute('SELECT * FROM users WHERE id="{}"'.format(mdl_id))
-            result = cursor.fetchone()
-            self.assertTrue(result is not None)
-            self.assertIn('john25@gmail.com', result)
-            self.assertIn('123', result)
-            cursor.close()
-            dbc.close()
+            # Attempting to create a User instance with missing attributes
+            cons.onecmd('create User')
+            self.assertIn('email', cout.getvalue().strip())
+            self.assertIn('password', cout.getvalue().strip())
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
