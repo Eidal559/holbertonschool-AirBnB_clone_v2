@@ -49,10 +49,24 @@ class TestHBNBCommand(unittest.TestCase):
         """
         with patch('sys.stdout', new=StringIO()) as cout:
             cons = HBNBCommand()
-            # Attempting to create a User instance with missing attributes
-            cons.onecmd('create User')
-            self.assertIn('email', cout.getvalue().strip())
-            self.assertIn('password', cout.getvalue().strip())
+            cons.onecmd('create User email="test@example.com" password="password123"')
+            user_id = cout.getvalue().strip()
+            self.assertRegex(user_id, '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')
+
+            # Assuming storage.__session gives you access to the SQLAlchemy session
+            # And assuming DBStorage is your current storage instance
+            from models import storage
+            if hasattr(storage, '_DBStorage__session'):  # Adjust based on actual attribute name
+                session = storage._DBStorage__session
+                user = session.query(User).filter_by(id=user_id).first()
+            else:
+                self.fail("DBStorage does not have session management implemented")
+
+            self.assertIsNotNone(user)
+            self.assertEqual(user.email, "test@example.com")
+            self.assertEqual(user.password, "password123")
+
+
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
