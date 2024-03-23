@@ -45,28 +45,33 @@ class TestHBNBCommand(unittest.TestCase):
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
     def test_db_create(self):
-        """Tests the create command with the database storage.
-        """
+        """Tests the create command with the database storage."""
         with patch('sys.stdout', new=StringIO()) as cout:
             cons = HBNBCommand()
-            cons.onecmd('create User email="test@example.com" password="password123"')
+            cons.onecmd(
+                'create User '
+                'email="test@example.com" '
+                'password="password123"'
+            )
             user_id = cout.getvalue().strip()
-            self.assertRegex(user_id, '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')
+            self.assertRegex(
+                user_id,
+                '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+            )
 
-            # Assuming storage.__session gives you access to the SQLAlchemy session
-            # And assuming DBStorage is your current storage instance
             from models import storage
-            if hasattr(storage, '_DBStorage__session'):  # Adjust based on actual attribute name
+            if hasattr(storage, '_DBStorage__session'):  # Adjust if needed
                 session = storage._DBStorage__session
                 user = session.query(User).filter_by(id=user_id).first()
             else:
-                self.fail("DBStorage does not have session management implemented")
+                self.fail(
+                    '"DBStorage does not'
+                    'have session management implemented"'
+                    )
 
             self.assertIsNotNone(user)
             self.assertEqual(user.email, "test@example.com")
             self.assertEqual(user.password, "password123")
-
-
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
