@@ -22,16 +22,16 @@ The HBNB project embarks on recreating the AirBnB experience through a clone web
 
 ## Repository Contents
 
-Below is a list and description of the primary files and directories within the repository:
-
-- `AUTHORS`: A file listing individuals who have contributed to the project.
-- `/models`: Directory containing classes used throughout the project.
-    - `base_model.py`: Defines the BaseModel class, the foundational class for all other models.
-    - `/engine`: Directory housing the storage mechanisms.
-        - `file_storage.py`: Manages serialization and deserialization of objects to and from JSON.
-        - `db_storage.py`: Handles MySQL database storage operations.
-- `/tests`: Contains unit tests for all classes and storage engines.
-- `console.py`: The command-line interface for the project.
+| File/Directory        | Location           | Description                                                            |
+|-----------------------|--------------------|------------------------------------------------------------------------|
+| `AUTHORS`             | Root               | A file listing individuals who have contributed to the project.       |
+| `/models`             | Root               | Directory containing classes used throughout the project.             |
+| `base_model.py`       | `/models`          | Defines the BaseModel class, the foundational class for all other models. |
+| `/engine`             | `/models`          | Directory housing the storage mechanisms.                             |
+| `file_storage.py`     | `/models/engine`   | Manages serialization and deserialization of objects to and from JSON.|
+| `db_storage.py`       | `/models/engine`   | Handles MySQL database storage operations.                            |
+| `/tests`              | Root               | Contains unit tests for all classes and storage engines.              |
+| `console.py`          | Root               | The command-line interface for the project.                           |
 
 ## Installation
 
