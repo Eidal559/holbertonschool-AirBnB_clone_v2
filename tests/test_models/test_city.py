@@ -17,13 +17,12 @@ class test_City(test_basemodel):
     def test_state_id(self):
         """ testing state_id type """
         new = self.value()
-        self.assertEqual(type(new.state_id), str if
-                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
-                         type(None))
+        expected_type = str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None)
+        self.assertEqual(type(new.state_id), expected_type)
 
     def test_name(self):
         """ testing name type"""
         new = self.value()
-        self.assertEqual(type(new.name), str if
-                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
-                         type(None))
+        expected_type = str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None)
+        self.assertEqual(type(new.name), expected_type)
+
