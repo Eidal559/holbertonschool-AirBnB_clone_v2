@@ -5,6 +5,9 @@ CREATE DATABASE IF NOT EXISTS hbnb_test_db;
 -- Check if the test user exists, create the user if it does not
 CREATE USER IF NOT EXISTS 'hbnb_test'@'localhost' IDENTIFIED BY 'hbnb_test_pwd';
 
+-- Check if the test user has access to the test database, and grant access if not
+USE hbnb_test_db;
+
 -- Grant all privileges on the test database to the test user
 GRANT ALL PRIVILEGES ON hbnb_test_db.* TO 'hbnb_test'@'localhost';
 
