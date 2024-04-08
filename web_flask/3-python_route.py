@@ -1,35 +1,37 @@
 #!/usr/bin/python3
-"""Starts a Flask web application"""
+"""Importing the needed framework"""
+from flask import Flask
 
-from flask import Flask, escape
 
 app = Flask(__name__)
 
 
-@app.route('/', strict_slashes=False)
+@app.route("/", strict_slashes=False)
+def hello():
+    """Function that returns a simple string"""
+    return "Hello HBNB!"
+
+
+@app.route("/hbnb", strict_slashes=False)
 def hello_hbnb():
-    """Displays 'Hello HBNB!'"""
-    return 'Hello HBNB!'
+    """Function that returns HBNB string"""
+    return "HBNB"
 
 
-@app.route('/hbnb', strict_slashes=False)
-def hbnb():
-    """Displays 'HBNB'"""
-    return 'HBNB'
+@app.route("/c/<text>", strict_slashes=False)
+def c_print(text):
+    """Function that returns a C string"""
+    result = text.replace('_', ' ')
+    return "C {}".format(result)
 
 
-@app.route('/c/<text>', strict_slashes=False)
-def c_text(text):
-    """Displays 'C ', followed by the value of the text variable"""
-    return 'C {}'.format(escape(text.replace('_', ' ')))
+@app.route("/python", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python_print(text="is cool"):
+    """Function that returns a Python string"""
+    result = text.replace('_', ' ')
+    return "Python {}".format(result)
 
 
-@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def python_text(text):
-    """Displays 'Python ', followed by the value of the text variable"""
-    return 'Python {}'.format(escape(text.replace('_', ' ')))
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
