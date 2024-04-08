@@ -1,43 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>HBNB - Filters</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-footer.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') }}">
-</head>
-<body>
-    <header class="clearfix">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="HBNB logo">
-            <h1>HBNB</h1>
-        </div>
-    </header>
-    <section class="filters">
-        <div class="options">
-            <div class="popover">
-                <h2>States</h2>
-                <div class="popover-content">
+<HTML lang="en-US">
+<HEAD>
+    <META charset="utf-8">
+    <META http-equiv="X-UA-Compatible" content="IE=edge">
+    <META name="viewport" content="width=device-width,initial-scale=1.0">
+    <LINK rel="icon" href="{{ url_for('static', filename = 'images/icon.png') }}">
+    <TITLE>AirBnB Clone</TITLE>
+    <LINK rel="stylesheet" href="{{ url_for('static', filename = 'styles/4-common.css') }}"/>
+    <LINK rel="stylesheet" href="{{ url_for('static', filename = 'styles/3-header.css') }}"/>
+    <LINK rel="stylesheet" href="{{ url_for('static', filename = 'styles/3-footer.css') }}"/>
+    <LINK rel="stylesheet" href="{{ url_for('static', filename = 'styles/6-filters.css') }}"/>
+</HEAD>
+<BODY>
+    <HEADER>
+        <A href="/hbnb_filters"></A>
+    </HEADER>
+    <DIV class="container">
+        <SECTION class="filters">
+            <DIV class="locations">
+                <H3>States</H3>
+                <H4>&nbsp;</H4>
+                <UL class="popover">
                     {% for state in states %}
-                    <div class="filter" data-id="{{ state.id }}" data-name="{{ state.name }}">{{ state.name }}</div>
+                    <LI>
+                        <H2>{{ state.name }}</H2>
+                        <UL>
+                            {% for city in state.cities %}
+                            <LI>{{ city.name }}</LI>
+                            {% endfor %}
+                        </UL>
+                    </LI>
                     {% endfor %}
-                </div>
-            </div>
-            <div class="popover">
-                <h2>Amenities</h2>
-                <div class="popover-content">
+                </UL>
+            </DIV>
+            <DIV class="amenities">
+                <H3>Amenities</H3>
+                <H4>&nbsp;</H4>
+                <UL class="popover">
                     {% for amenity in amenities %}
-                    <div class="amenity" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}">{{ amenity.name }}</div>
+                    <LI>{{ amenity.name }}</LI>
                     {% endfor %}
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <p>Footer</p>
-    </footer>
-</body>
-</html>
+                </UL>
+            </DIV>
+            <BUTTON>Search</BUTTON>
+        </SECTION>
+    </DIV>
+    <FOOTER>
+        Holberton School
+    </FOOTER>
+</BODY>
+</HTML>
