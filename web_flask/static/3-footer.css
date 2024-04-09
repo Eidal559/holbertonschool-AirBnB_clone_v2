@@ -1,12 +1,10 @@
 footer {
-    display: flex;
-    width: 100%;
+    background-color: white;
     height: 60px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: #FFFFFF;
+    width: 100%;
     border-top: 1px solid #CCCCCC;
-    grid-area: footer;
-    align-self: flex-end;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    line-height: 60px;
 }
