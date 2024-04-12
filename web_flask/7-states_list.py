@@ -8,6 +8,7 @@ from os import getenv
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+
 @app.route("/states_list")
 def states_list():
     """Display a list of all State objects sorted by name (A-Z)."""
@@ -17,10 +18,12 @@ def states_list():
     # Create the HTML template with the list of states
     return render_template("7-states_list.html", states=sorted_states)
 
+
 @app.teardown_appcontext
 def close_storage(exception):
     """Close the storage connection after each request."""
     storage.close()
+
 
 if __name__ == "__main__":
     # Start the Flask application
