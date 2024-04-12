@@ -13,7 +13,7 @@ def states_list():
     """Display a list of all State objects sorted by name (A-Z)."""
     states = storage.all(State)  # Fetch all State objects from storage
     sorted_states = sorted(states.values(), key=lambda state: state.name)
-    
+
     # Create the HTML template with the list of states
     return render_template("7-states_list.html", states=sorted_states)
 
