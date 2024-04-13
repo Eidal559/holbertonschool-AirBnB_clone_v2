@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 """Flask web application that displays States, Cities, and Amenities with filters."""
+import sys
+import os
+sys.path.append(os.path.abspath('..'))
 from flask import Flask, render_template
 from models import storage
 from models.state import State
