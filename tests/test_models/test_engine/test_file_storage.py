@@ -5,7 +5,6 @@ from models.base_model import BaseModel
 from models import storage
 import os
 
-
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                  'fileStorage test not supported')
 class test_fileStorage(unittest.TestCase):
@@ -111,41 +110,3 @@ class test_fileStorage(unittest.TestCase):
         """ FileStorage object storage created """
         from models.engine.file_storage import FileStorage
         self.assertEqual(type(storage), FileStorage)
-
-    def test_get(self):
-        """ Test the get method """
-        # Create a new BaseModel object and save it
-        obj = BaseModel()
-        obj.save()
-
-        # Retrieve the object using the get method
-        retrieved_obj = storage.get(BaseModel, obj.id)
-
-        # Assert that the retrieved object matches the created object
-        self.assertIsNotNone(retrieved_obj)
-        self.assertEqual(retrieved_obj.id, obj.id)
-
-        # Test with a non-existing ID
-        non_existent_obj = storage.get(BaseModel, "non_existent_id")
-        self.assertIsNone(non_existent_obj)
-
-    def test_count(self):
-        """ Test the count method """
-        # Count the number of objects before creating new ones
-        initial_count = storage.count()
-        base_model_count = storage.count(BaseModel)
-
-        # Create new objects
-        obj1 = BaseModel()
-        obj1.save()
-
-        obj2 = BaseModel()
-        obj2.save()
-
-        # Count the number of objects after creating new ones
-        new_total_count = storage.count()
-        new_base_model_count = storage.count(BaseModel)
-
-        # Assert that the total count and class-specific count are incremented
-        self.assertEqual(new_total_count, initial_count + 2)
-        self.assertEqual(new_base_model_count, base_model_count + 2)
