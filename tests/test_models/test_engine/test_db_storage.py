@@ -2,10 +2,12 @@
 ''' module for file_storage tests '''
 import unittest
 import MySQLdb
+from models.state import State
 from models.user import User
 from models import storage
 from datetime import datetime
 import os
+
 
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                  'db_storage test not supported')
@@ -173,3 +175,65 @@ class TestDBStorage(unittest.TestCase):
         dbc1.close()
         cursor.close()
         dbc.close()
+
+    def setUp(self):
+        """ Set up a testing environment """
+        self.db = MySQLdb.connect(
+            user=os.getenv('HBNB_MYSQL_USER'),
+            host=os.getenv('HBNB_MYSQL_HOST'),
+            passwd=os.getenv('HBNB_MYSQL_PWD'),
+            db=os.getenv('HBNB_MYSQL_DB')
+        )
+        self.cursor = self.db.cursor()
+
+    def tearDown(self):
+        """ Clean up the testing environment """
+        self.cursor.close()
+        self.db.close()
+
+    def test_get(self):
+        """ Test the get method """
+        # Create a new state object and save it
+        state = State(name="Test State")
+        state.save()
+
+        # Retrieve the state object using get method
+        retrieved_state = storage.get(State, state.id)
+
+        # Assert that the retrieved object is the same as the created object
+        self.assertIsNotNone(retrieved_state)
+        self.assertEqual(retrieved_state.id, state.id)
+        self.assertEqual(retrieved_state.name, state.name)
+
+        # Test with non-existing ID
+        non_existent = storage.get(State, "non_existent_id")
+        self.assertIsNone(non_existent)
+
+    def test_count(self):
+        """ Test the count method """
+        # Count all objects before creating new ones
+        initial_count = storage.count()
+        state_count = storage.count(State)
+
+        # Create new objects
+        state1 = State(name="Test State 1")
+        state1.save()
+
+        state2 = State(name="Test State 2")
+        state2.save()
+
+        # Count all objects after creating new ones
+        new_total_count = storage.count()
+        new_state_count = storage.count(State)
+
+        # Assert that the total count and class count are incremented
+        self.assertEqual(new_total_count, initial_count + 2)
+        self.assertEqual(new_state_count, state_count + 2)
+
+        # Optionally, test counting a different class
+        user_count = storage.count(User)
+        self.assertEqual(user_count, 0)  # Assuming no User instances exist
+
+
+if __name__ == '__main__':
+    unittest.main()

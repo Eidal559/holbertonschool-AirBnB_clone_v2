@@ -68,6 +68,19 @@ class FileStorage:
         if obj_key in self.__objects.keys():
             del self.__objects[obj_key]
 
+    def get(self, cls, id):
+        """Retrieve an object based on the class and its ID."""
+        key = f"{cls.__name__}.{id}"
+        return self.__objects.get(key)
+
+    def count(self, cls=None):
+        """Count the number of objects in storage."""
+        if cls:
+            cls_name = cls.__name__
+            return sum(1 for key in self.__objects if key.startswith(cls_name))
+        else:
+            return len(self.__objects)
+
     def close(self):
         """Call the reload method"""
         self.reload()
