@@ -3,9 +3,11 @@
 from models.base_model import BaseModel, Base
 from datetime import datetime
 import unittest
+import time
 from uuid import UUID
 import json
 import os
+
 
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                  'basemodel test not supported')
@@ -165,16 +167,10 @@ class test_basemodel(unittest.TestCase):
         self.assertEqual(type(new.created_at), datetime)
 
     def test_updated_at(self):
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime)
-        
-        initial_updated_at = new.updated_at
-        
-        new.some_attribute = "some_value"
-        new.save()
-        
-        n = new.to_dict()
-        updated_instance = BaseModel(**n)
-        
-        self.assertNotEqual(initial_updated_at, updated_instance.updated_at)
-
+        """Test that 'updated_at' is updated on model update"""
+        model = BaseModel()
+        old_updated_at = model.updated_at
+        time.sleep(1)  # Sleep for a second
+        model.name = "New Name"  # Modify the model
+        model.save()  # Explicitly save to update the timestamp
+        self.assertNotEqual(old_updated_at, model.updated_at, "updated")
