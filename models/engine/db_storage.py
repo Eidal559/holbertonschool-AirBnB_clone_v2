@@ -86,11 +86,27 @@ class DBStorage:
                 type(obj).id == obj.id).delete()
 
     def reload(self):
-        '''reloads the database'''
-        Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
-        self.__session = scoped_session(session_factory)()
+        def get(self, cls, id):
+            """Retrieve one object based on class and its ID."""
+            if cls and id:
+                try:
+                    obj = self.__session.query(cls).get(id)
+                    return obj
+                except Exception:
+                    return None
+            return None
+
+    def count(self, cls=None):
+        """Count the number of objects in storage matching the given class."""
+        if cls:
+            # Count objects of the given class
+            return self.__session.query(cls).count()
+        else:
+            # Count all objects
+            total_count = 0
+            for model_class in [User, State, City, Amenity, Place, Review]:
+                total_count += self.__session.query(model_class).count()
+            return total_count
 
     def close(self):
         """closes the working SQLAlchemy session"""

@@ -173,3 +173,34 @@ class TestDBStorage(unittest.TestCase):
         dbc1.close()
         cursor.close()
         dbc.close()
+
+    def test_get(self):
+        '''Test the get method of the storage engine'''
+        user = User(first_name="John", last_name="Doe",
+                    email="john.doe@example.com", password="pass")
+        user.save()
+        # Retrieve the user using the get method
+        retrieved_user = storage.get(User, user.id)
+        # Check if the retrieved user matches the saved user
+        self.assertIsNotNone(retrieved_user)
+        self.assertEqual(retrieved_user.id, user.id)
+        # Check the get method with a non-existent ID
+        self.assertIsNone(storage.get(User, 'non-existent-id'))
+
+    def test_count(self):
+        '''Test the count method of the storage engine'''
+        # Initial count
+        initial_count = storage.count()
+        # Create two new users
+        user1 = User(first_name="Alice", last_name="Smith",
+                 email="alice.smith@example.com", password="pass")
+        user1.save()
+        user2 = User(first_name="Bob", last_name="Johnson",
+                 email="bob.johnson@example.com", password="pass")
+        user2.save()
+        # Check the count for the entire storage
+        total_count = storage.count()
+        self.assertEqual(total_count, initial_count + 2)
+        # Check the count for the User class only
+        user_count = storage.count(User)
+        self.assertEqual(user_count, 2)
