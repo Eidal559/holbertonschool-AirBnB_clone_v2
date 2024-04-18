@@ -8,6 +8,7 @@ from uuid import UUID
 import json
 import os
 
+
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
                  'basemodel test not supported')
 class test_basemodel(unittest.TestCase):
@@ -169,8 +170,8 @@ class test_basemodel(unittest.TestCase):
         """Test that 'updated_at' is updated on model update"""
         model = BaseModel()
         old_updated_at = model.updated_at
-        time.sleep(1)  # Sleep for a second to ensure a noticeable difference in time
+        time.sleep(1)  # Sleep for a second
         model.name = "New Name"  # Modify the model
         model.save()  # Explicitly save to update the timestamp
-        self.assertNotEqual(old_updated_at, model.updated_at, "updated_at should have been updated")
-
+        self.assertNotEqual
+        (old_updated_at, model.updated_at, "updated_at is updated")
