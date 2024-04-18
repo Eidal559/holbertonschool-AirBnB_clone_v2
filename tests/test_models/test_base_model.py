@@ -173,5 +173,4 @@ class test_basemodel(unittest.TestCase):
         time.sleep(1)  # Sleep for a second
         model.name = "New Name"  # Modify the model
         model.save()  # Explicitly save to update the timestamp
-        self.assertNotEqual
-        (old_updated_at, model.updated_at, "updated_at is updated")
+        self.assertNotEqual(old_updated_at, model.updated_at, "updated")
